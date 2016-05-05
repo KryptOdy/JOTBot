@@ -2,14 +2,16 @@ from nltk import word_tokenize
 
 class RelationNet:
     
+    # intialize
     def __init__(self, comparePhrase):
         # self.synsets = {}
-        self.allThings = {}
-        self.indices = {}
+        # self.allThings = {}
+        # self.indices = {}
         self.relations = {}
         self.compPhrase = comparePhrase
         self.count = 0
     
+    # encode a relation in the relation net
     def put_rel(self, thing1, thing2):
         """self.allThings[thing1] = self.count
         self.indices[self.count] = thing1
@@ -23,7 +25,7 @@ class RelationNet:
         if self.contains(thing1, thing1):
             print "JOT: Warning: cycle detected."
 
-
+            
     def set_compPhrase(self, phrase):
         self.compPhrase = phrase
         
@@ -60,7 +62,7 @@ class RelationNet:
 
         """if self.relations.has_key(thing1) == False:
             #print "JOT: no, " + thing1 + "is not " + phr + thing2
-            print "It might or it might not be."
+            print "Not necessarily"
             return"""
         
         if self.contains(thing1, thing2):
@@ -72,25 +74,21 @@ class RelationNet:
             #return
         else:
             #print "JOT: no, " + thing1 + "is not " + phr + thing2
-            print "JOT: It might or it might not be."
+            print "JOT: Not necessarily."
             return
 
     @staticmethod
     def find_compPhrase(message):
-        i = message.find("than")
-        toks1 = word_tokenize(message[:i])
-        compPhrase = toks1[-1] + " than"
+        if "a kind of" in message:
+            compPhrase = "a kind of"
+        else:
+            i = message.find("than")
+            toks1 = word_tokenize(message[:i])
+            compPhrase = toks1[-1] + " than"
         return compPhrase
 
+# CLIENT CODE
 nets = {}
-
-rn = RelationNet("bigger than")
-rn.put_rel("a dog", "a mouse")
-rn.put_rel("mount everest", "mount greylock")
-rn.put_rel("a liter", "a pint")
-# rn.get_rel("a mouse" , "a dog")
-# rn.get_rel("a dog", "a mouse")
-
 while True:
     # read a line from the user
     message = raw_input("usr: ")
@@ -118,14 +116,4 @@ while True:
         currentNet.get_rel(message[3:i-1], message[i+cplen+1:mlen-1])
       
     else:
-        break
-
-    """toks = message.split()
-    if toks[0] == 'p':
-        rn.put_rel(toks[1], toks[2])
-    elif toks[0] == 'g':
-        rn.get_rel(toks[1], toks[2])
-    else:
-        print "Goodbye"
-        break"""
-
+        print "Please enter either a statement or a question."
