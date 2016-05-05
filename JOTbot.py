@@ -128,7 +128,6 @@ def questionHandler(question, pos):
     elif questionState == Question.WHAT:
         # Find if part of speech is messed up and fix it, if its not wrong its the same
         pos = fixPos(question, pos)
-        print pos
         # Case 1: Only one verb in sentence, which is directly before Subject, use that Verb for search
         # Case 2: Two verbs in sentence, use one which is directly after subject if possible
         #If there is one Subject
